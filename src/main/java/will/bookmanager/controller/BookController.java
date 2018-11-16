@@ -46,7 +46,13 @@ public class BookController {
         modelAndView.addObject("message", "New book created successful");
         modelAndView.addObject("book", new Book());
         return modelAndView;
+    }
 
+    @GetMapping("/view/{id}")
+    public ModelAndView showViewPage(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("view");
+        modelAndView.addObject("book", bookService.findById(id));
+        return modelAndView;
     }
 
 
