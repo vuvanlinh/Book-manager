@@ -42,11 +42,11 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createNewBook(@Validated @ModelAttribute("book") Book book,BindingResult bindingResult) {
-        if (bindingResult.hasFieldErrors()){
+    public ModelAndView createNewBook(@Validated @ModelAttribute("book") Book book, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
             ModelAndView modelAndView = new ModelAndView("create");
             return modelAndView;
-        }else {
+        } else {
             ModelAndView modelAndView = new ModelAndView("create");
             bookService.save(book);
             modelAndView.addObject("message", "New book created successful");
@@ -71,32 +71,36 @@ public class BookController {
     }
 
     @PostMapping("/edit")
-    public ModelAndView editBook(Book book) {
-        ModelAndView modelAndView = new ModelAndView("edit");
-        bookService.save(book);
-        modelAndView.addObject("message", "Book was update succesfull");
-        return modelAndView;
+    public ModelAndView editBook(@Validated Book book, BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()) {
+            ModelAndView modelAndView = new ModelAndView("edit");
+            return modelAndView;
+        } else {
+            ModelAndView modelAndView = new ModelAndView("edit");
+            bookService.save(book);
+            modelAndView.addObject("message", "Book was update succesfull");
+            return modelAndView;
+        }
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView showDeletePage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("delete");
-        modelAndView.addObject("book",bookService.findById(id));
+        modelAndView.addObject("book", bookService.findById(id));
         return modelAndView;
     }
 
     @PostMapping("/delete")
-    public ModelAndView deleteBook(@RequestParam Long id,Book book){
+    public ModelAndView deleteBook(@RequestParam Long id, Book book) {
         book = bookService.findById(id);
-        if (book!=null){
+        if (book != null) {
             bookService.remove(id);
             ModelAndView modelAndView = new ModelAndView("delete");
-            modelAndView.addObject("message","Delete successful");
+            modelAndView.addObject("message", "Delete successful");
             return modelAndView;
-        }
-        else {
+        } else {
             ModelAndView modelAndView = new ModelAndView("delete");
-            modelAndView.addObject("message","Delete failed");
+            modelAndView.addObject("message", "Delete failed");
             return modelAndView;
         }
     }
