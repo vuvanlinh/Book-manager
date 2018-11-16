@@ -56,18 +56,41 @@ public class BookController {
     }
 
     @GetMapping("/edit/{id}")
-    public ModelAndView showEditForm(@PathVariable Long id){
+    public ModelAndView showEditForm(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("edit");
-        modelAndView.addObject("book",bookService.findById(id));
+        modelAndView.addObject("book", bookService.findById(id));
         return modelAndView;
     }
 
     @PostMapping("/edit")
-    public ModelAndView editBook(Book book){
+    public ModelAndView editBook(Book book) {
         ModelAndView modelAndView = new ModelAndView("edit");
         bookService.save(book);
-        modelAndView.addObject("message","Book was update succesfull");
+        modelAndView.addObject("message", "Book was update succesfull");
         return modelAndView;
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView showDeletePage(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("delete");
+        modelAndView.addObject("book",bookService.findById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/delete")
+    public ModelAndView deleteBook(@RequestParam Long id,Book book){
+        book = bookService.findById(id);
+        if (book!=null){
+            bookService.remove(id);
+            ModelAndView modelAndView = new ModelAndView("delete");
+            modelAndView.addObject("message","Delete successful");
+            return modelAndView;
+        }
+        else {
+            ModelAndView modelAndView = new ModelAndView("delete");
+            modelAndView.addObject("message","Delete failed");
+            return modelAndView;
+        }
     }
 
 
