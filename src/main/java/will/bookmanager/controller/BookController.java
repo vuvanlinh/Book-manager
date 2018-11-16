@@ -1,14 +1,16 @@
 package will.bookmanager.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import will.bookmanager.model.Book;
 import will.bookmanager.service.BookService;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/")
@@ -18,8 +20,15 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/")
-    public ModelAndView showListBook() {
+    public ModelAndView showListBook(@RequestParam("search") Optional<String> search, @PageableDefault(size = 10) Pageable pageable) {
+        Page<Book> books;
+        if (search.isPresent()) {
+            books = bookService.findAllByNameContaining(search.get(), pageable);
+        } else {
+            books = bookService.findAll(pageable);
+        }
         ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("books", books);
         return modelAndView;
     }
 

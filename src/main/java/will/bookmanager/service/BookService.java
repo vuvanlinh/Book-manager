@@ -13,6 +13,6 @@ public interface BookService {
 
     void remove(Long id);
 
-    Page<Book> findAllByName(String name, Pageable pageable);
+    Page<Book> findAllByNameContaining(String name, Pageable pageable);
 
 }

@@ -6,5 +6,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import will.bookmanager.model.Book;
 
 public interface BookRepository extends PagingAndSortingRepository<Book,Long> {
-    Page<Book> findAllByName(String name, Pageable pageable);
+    Page<Book> findAllByNameContaining(String name, Pageable pageable);
 }

@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<Book> findAllByName(String name, Pageable pageable) {
-        return bookRepository.findAllByName(name, pageable);
+    public Page<Book> findAllByNameContaining(String name, Pageable pageable) {
+        return bookRepository.findAllByNameContaining(name, pageable);
     }
 }
