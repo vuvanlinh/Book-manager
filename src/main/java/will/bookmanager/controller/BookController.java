@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import will.bookmanager.model.Book;
@@ -40,12 +42,18 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ModelAndView createNewBook(@ModelAttribute("book") Book book) {
-        ModelAndView modelAndView = new ModelAndView("create");
-        bookService.save(book);
-        modelAndView.addObject("message", "New book created successful");
-        modelAndView.addObject("book", new Book());
-        return modelAndView;
+    public ModelAndView createNewBook(@Validated @ModelAttribute("book") Book book,BindingResult bindingResult) {
+        if (bindingResult.hasFieldErrors()){
+            ModelAndView modelAndView = new ModelAndView("create");
+            return modelAndView;
+        }else {
+            ModelAndView modelAndView = new ModelAndView("create");
+            bookService.save(book);
+            modelAndView.addObject("message", "New book created successful");
+            modelAndView.addObject("book", new Book());
+            return modelAndView;
+        }
+
     }
 
     @GetMapping("/view/{id}")

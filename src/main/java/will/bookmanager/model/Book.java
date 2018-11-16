@@ -1,6 +1,8 @@
 package will.bookmanager.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "Books")
@@ -10,8 +12,10 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String author;
 
     private double price;
