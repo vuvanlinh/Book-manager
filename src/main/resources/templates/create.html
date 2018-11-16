@@ -6,10 +6,11 @@
 </head>
 <body>
 <div align="center">
+
     <h1>Create a book to manage</h1>
     <hr>
     <th:block th:if="message">
-        <a th:text="${message}"></a>
+        <a style="color: blueviolet" th:text="${message}"></a>
     </th:block>
     <form action="/create" method="post" th:object="${book}">
         <table>
@@ -32,8 +33,8 @@
             </tr>
         </table>
         <a th:href="@{/}">Back to Book list</a>
+    </form>
 </div>
 
-</form>
 </body>
 </html>
