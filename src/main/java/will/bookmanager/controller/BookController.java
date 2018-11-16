@@ -55,5 +55,20 @@ public class BookController {
         return modelAndView;
     }
 
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditForm(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView("edit");
+        modelAndView.addObject("book",bookService.findById(id));
+        return modelAndView;
+    }
+
+    @PostMapping("/edit")
+    public ModelAndView editBook(Book book){
+        ModelAndView modelAndView = new ModelAndView("edit");
+        bookService.save(book);
+        modelAndView.addObject("message","Book was update succesfull");
+        return modelAndView;
+    }
+
 
 }
